@@ -22,7 +22,8 @@ module.exports = {
   */
   css: [
     // node.js module but we specify the pre-processor
-    { src: 'bulma/bulma.sass', lang: 'sass' },
+    { src: '~assets/main.scss', lang: 'scss' },
+    // { src: 'bulma/bulma.sass', lang: 'sass' },
     { src: 'font-awesome/scss/font-awesome.scss', lang: 'scss' },
   ],
 

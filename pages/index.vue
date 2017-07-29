@@ -23,30 +23,5 @@ export default {
 </script>
 
 <style>
-.hero.is-dark {
-  background-color: lightgray;
-}
 
-.hero .is-overlay.is-image {
-  background-image: url('/hero.jpg');
-  background-size: cover;
-  background-position: right;
-  mix-blend-mode: multiply;
-}
-
-.hero .is-overlay.is-border {
-  top: 1rem;
-  left: 1rem;
-  bottom: 1rem;
-  right: 1rem;
-  border: 0.25rem solid #f36c00;
-}
-
-.button.is-primary {
-  /* display: inline;
-  padding: 1rem 1.5rem;
-  font-weight: bold; */
-  background: #f36c00;
-  text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.2);
-}
 </style>
