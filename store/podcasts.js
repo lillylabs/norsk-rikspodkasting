@@ -5,10 +5,33 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addIds(state, items) {
-    console.log(items)
-    state.ids = items.map(item => item.fields.id)
-    console.log(state.ids)
+  addIds(state, ids) {
+    state.ids = ids
+  },
+  removeId(state, id) {
+    state.ids = state.ids.filter(item => id !== item)
+    console.log('remove', id)
+  },
+  addMeta(state, { id, meta }) {
+    state.meta[id] = {
+      name: meta.collectionName,
+      cover: {
+        tiny: meta.artworkUrl30,
+        small: meta.artworkUrl100,
+        large: meta.artworkUrl600
+      },
+      feedUrl: meta.feedUrl,
+      label: {
+        id: meta.artistId,
+        name: meta.artistName
+      },
+      categories: meta.genreIds.map((id, index) => {
+        return {
+          id: id,
+          name: meta.genres[index]
+        }
+      })
+    }
   }
 }
 

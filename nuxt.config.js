@@ -1,4 +1,8 @@
 module.exports = {
+  env: {
+    contentfulAccessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b',
+    contentfulSpaceId: process.env.CONTENTFUL_SPACE_ID || 'afonij0ohzso'
+  },
   /*
   ** Headers of the page
   */
