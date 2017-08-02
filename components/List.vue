@@ -1,8 +1,8 @@
 <template>
   <section>
     <div class="columns is-gapless is-multiline">
-      <div class="column is-4 is-3-desktop" v-for="(podcast, index) of $store.state.podcasts.list" :key="index">
-        <a class="image is-square">
+      <div class="column is-4 is-3-desktop" v-for="(podcast, index) of []" :key="index">
+        <a class="image is-square ">
           <img :src="podcast.cover ">
         </a>
       </div>
