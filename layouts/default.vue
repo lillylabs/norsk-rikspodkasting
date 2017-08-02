@@ -7,7 +7,6 @@
       <player></player>
     </div>
     <div class="right is-dark">
-      <list/>
       <nuxt/>
     </div>
   </div>
@@ -16,12 +15,10 @@
 <script>
 
 import Player from '~/components/Player.vue'
-import List from '~/components/List.vue'
 
 export default {
   components: {
-    Player,
-    List
+    Player
   }
 }
 </script>
