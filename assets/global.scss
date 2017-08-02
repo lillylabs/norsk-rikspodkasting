@@ -1,17 +1,28 @@
-.is-overlay.is-border {
-  top: 1rem;
-  left: 1rem;
-  bottom: 1rem;
-  right: 1rem;
-  border: 0.25rem solid #f36c00;
+html,
+body {
+  height: 100%;
 }
 
-.is-overlay.is-image {
-  background-image: url('/hero.jpg');
-  background-size: cover;
-  background-position: right top;
+.has-border {
+  border: 0.25rem solid $dark;
+}
+
+.has-primary-border {
+  border: 0.25rem solid $orange;
 }
 
 .button.is-primary {
   text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.is-primary {
+  background: $orange;
+}
+
+.is-dark {
+  background: $dark;
+}
+
+.is-light {
+  background: $light;
 }
