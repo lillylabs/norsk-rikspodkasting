@@ -2,11 +2,11 @@
   <div>
     <div class="left">
       <h1>
-        <a href="" class="button is-large is-primary">Norsk Rikspodkasting</a>
+        <nuxt-link to="/" href="" class="button is-large is-primary">Norsk Rikspodkasting</nuxt-link>
       </h1>
       <player></player>
     </div>
-    <div class="right is-dark">
+    <div class="right">
       <nuxt/>
     </div>
   </div>
