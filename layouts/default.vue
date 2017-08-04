@@ -1,13 +1,12 @@
 <template>
   <div>
-    <div class="left">
+    <div class="left is-dark">
       <h1>
-        <a href="" class="button is-large is-primary">Norsk Rikspodkasting</a>
+        <nuxt-link to="/" href="" class="button is-large is-primary">Norsk Rikspodkasting</nuxt-link>
       </h1>
       <player></player>
     </div>
-    <div class="right is-dark">
-      <list/>
+    <div class="right">
       <nuxt/>
     </div>
   </div>
@@ -16,12 +15,10 @@
 <script>
 
 import Player from '~/components/Player.vue'
-import List from '~/components/List.vue'
 
 export default {
   components: {
-    Player,
-    List
+    Player
   }
 }
 </script>

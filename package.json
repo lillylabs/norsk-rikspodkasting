@@ -8,6 +8,7 @@
     "axios": "^0.16.2",
     "bulma": "^0.5.0",
     "contentful": "^4.5.0",
+    "feedme": "^1.0.0",
     "font-awesome": "^4.7.0",
     "nuxt": "latest"
   },
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "css-loader": "^0.28.4",
     "eslint": "^3.15.0",
     "eslint-config-standard": "^6.2.1",

@@ -1,26 +1,24 @@
+const data = require('./helpers/data.js')
+
 module.exports = {
-  env: {
-    contentfulAccessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b',
-    contentfulSpaceId: process.env.CONTENTFUL_SPACE_ID || 'afonij0ohzso'
-  },
   /*
   ** Headers of the page
   */
   head: {
-    title: 'starter',
+    title: 'NRP',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'Lytt til norskspråklige podkaster' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/jpeg', href: '/hero.jpg' }
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#f36c00' },
   /*
   ** Include css not in components
   */
@@ -34,10 +32,31 @@ module.exports = {
     'contentful',
     'axios'
   ],
+  generate: {
+    routes: function () {
+      return data.initialData()
+        .then((data) => {
+          var routes = data.map(({ id, json }) => {
+            return {
+              route: '/' + id,
+              payload: data
+            }
+          })
+          routes.push({
+            route: '/',
+            payload: data
+          })
+          return routes
+        })
+    }
+  },
   /*
   ** Build configuration
   */
   build: {
+    babel: {
+      plugins: ['transform-es2015-modules-commonjs']
+    },
     /*
     ** Run ESLINT on save
     */

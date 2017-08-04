@@ -11,7 +11,7 @@ body {
   border: 0.25rem solid $orange;
 }
 
-.button.is-primary {
+.button.is-primary:not('is-outlined') {
   text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.2);
 }
 
