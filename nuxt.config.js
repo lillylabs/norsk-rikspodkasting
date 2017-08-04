@@ -1,4 +1,4 @@
-const contentful = require('contentful')
+const data = require('./helpers/data.js')
 
 module.exports = {
   env: {
@@ -38,23 +38,19 @@ module.exports = {
   ],
   generate: {
     routes: function () {
-      const client = contentful.createClient({
-        // This is the space ID. A space is like a project folder in Contentful terms
-        space: process.env.CONTENTFUL_SPACE_ID || 'afonij0ohzso',
-        // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b'
-      })
-
-      return client.getEntries({
-        content_type: 'podcast'
-      })
-        .then((response) => {
-          return response.items.map((item) => item.fields.id)
-        })
-        .then((ids) => {
-          return ids.map((id) => {
-            return '/' + id
+      return data.initialData()
+        .then((data) => {
+          var routes = data.map(({ id, json }) => {
+            return {
+              route: '/' + id,
+              payload: data
+            }
           })
+          routes.push({
+            route: '/',
+            payload: data
+          })
+          return routes
         })
     }
   },
@@ -62,6 +58,9 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    babel: {
+      plugins: ['transform-es2015-modules-commonjs']
+    },
     /*
     ** Run ESLINT on save
     */

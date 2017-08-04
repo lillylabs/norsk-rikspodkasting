@@ -1,27 +1,43 @@
-import axios from 'axios'
+const axios = require('axios')
 const contentful = require('contentful')
 const ITUNES_LOOKUP = 'https://itunes.apple.com/lookup'
 const RSS_2_JSON_KEY = 'wi57s1pdwphq2l6fpudnenl15syhlqozbjdxd74f'
 const RSS_2_JSON_COUNT = '50' // 20 min 200 max
 
-export default {
+module.exports = {
+  initialData() {
+    return this.podcastIds().then(ids => {
+      const promises = ids.map((id) => {
+        return this.iTunesLookUp(id)
+          .then((meta) => {
+            return this.feedToJson(meta.feedUrl, 20)
+          })
+          .then((json) => {
+            return { id, json }
+          })
+      })
+      return Promise.all(promises)
+    })
+  },
   podcastIds() {
     const client = contentful.createClient({
       // This is the space ID. A space is like a project folder in Contentful terms
-      space: process.env.contentfulSpaceId,
+      space: process.env.CONTENTFUL_SPACE_ID || 'afonij0ohzso',
       // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-      accessToken: process.env.contentfulAccessToken
+      accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b'
     })
 
     return client.getEntries({
-      content_type: 'podcast'
+      content_type: 'podcast',
+      limit: '2'
     })
       .then((response) => {
+        console.log(response)
         return response.items.map((item) => item.fields.id)
       })
   },
   feedToJson(feedUrl, count) {
-    return axios.get('http://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl) + '&api_key=' + RSS_2_JSON_KEY + '&count=' + (count || RSS_2_JSON_COUNT))
+    return axios.get('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl) + '&api_key=' + RSS_2_JSON_KEY + '&count=' + (count || RSS_2_JSON_COUNT))
       .then((response) => {
         return response.data
       })

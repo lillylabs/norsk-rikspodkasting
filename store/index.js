@@ -1,5 +1,5 @@
 import createLogger from 'vuex/dist/logger'
-import data from '~/helpers/data.js'
+const data = require('~/helpers/data.js')
 
 export const state = () => ({
   counter: 0
@@ -12,15 +12,12 @@ export const mutationss = {
 }
 
 export const actions = {
-  nuxtServerInit({ commit, dispatch, state }, { req }) {
-    return data.podcastIds()
-      .then((ids) => {
-        commit('podcasts/addIds', ids)
-        return ids
-      })
-      .then((ids) => {
-        return dispatch('podcasts/loadAll')
-      })
+  nuxtServerInit({ commit, dispatch, state }, { req, payload, params }) {
+    if (payload) {
+      return dispatch('podcasts/init', payload)
+    } else {
+      return data.initialData()
+    }
   }
 }
 

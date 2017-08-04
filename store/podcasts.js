@@ -1,4 +1,4 @@
-import data from '~/helpers/data.js'
+const data = require('~/helpers/data.js')
 
 export const state = () => ({
   ids: [],
@@ -29,44 +29,24 @@ export const mutations = {
 }
 
 export const actions = {
-  loadAll({ dispatch, state, commit }) {
-    const promises = state.ids.map((id) => {
-      return dispatch('loadPodcast', { id, episodeCount: 5 })
+  init({ commit }, payload) {
+    const ids = payload.map(podcast => {
+      commit('addMeta', { id: podcast.id, meta: podcast.json.feed })
+      commit('addEpisodes', { id: podcast.id, episodes: podcast.json.items })
+      commit('setStatus', { id: podcast.id, status: 'INITIAL' })
+      return podcast.id
     })
-    return Promise.all(promises)
-      .then(() => {
-        return commit('setStatus', { id: 'ALL', status: true })
-      })
+    commit('addIds', ids)
   },
-  loadPodcast({ dispatch, commit }, { id, episodeCount }) {
-    return dispatch('fetchMeta', id)
-      .then(() => {
-        return dispatch('fetchEpisodes', { id, episodeCount })
-      })
-      .then(() => {
-        return commit('setStatus', { id, status: 'INITIAL' })
-      })
-  },
-  fetchMeta({ commit }, id) {
-    return data.iTunesLookUp(id)
-      .then((meta) => {
-        commit('addMeta', { id, meta })
-      })
-  },
-  fetchEpisodes({ commit, state }, { id, episodeCount }) {
+  fetchAllEpisodes({ commit, state }, id) {
     const meta = state.meta[id]
     if (!meta) return
 
-    return data.feedToJson(meta.feedUrl, episodeCount)
+    return data.feedToJson(meta.url, 200)
       .then((data) => {
         commit('addMeta', { id, meta: data.feed })
         commit('addEpisodes', { id, episodes: data.items })
-      })
-  },
-  fetchAllEpisodes({ commit, dispatch }, id) {
-    return dispatch('fetchEpisodes', { id, episodeCount: 200 })
-      .then(() => {
-        return commit('setStatus', { id, status: 'COMPLETE' })
+        commit('setStatus', { id, status: 'COMPLETE' })
       })
   }
 }

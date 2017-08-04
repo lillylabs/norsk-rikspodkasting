@@ -4,13 +4,13 @@
       <div class="content columns">
         <div class="column is-2">
           <figure class="image">
-            <img :src="$store.state.podcasts.meta[$route.params.id].cover.large"></img>
+            <img :src="$store.state.podcasts.meta[$route.params.id].image"></img>
           </figure>
         </div>
         <div class="column">
-          <h1>{{ $store.state.podcasts.meta[$route.params.id].name }}</h1>
+          <h1>{{ $store.state.podcasts.meta[$route.params.id].title }}</h1>
           <p>
-            <a :href="$store.state.podcasts.meta[$route.params.id].link">{{ $store.state.podcasts.meta[$route.params.id].label.name }}</a>
+            <a :href="$store.state.podcasts.meta[$route.params.id].link">{{ $store.state.podcasts.meta[$route.params.id].author }}</a>
           </p>
           <div v-html="$store.state.podcasts.meta[$route.params.id].description"></div>
         </div>
@@ -50,7 +50,6 @@ export default {
 
   },
   mounted() {
-    console.log('mounted')
     this.$store.dispatch('podcasts/fetchAllEpisodes', this.$route.params.id)
   }
 }
