@@ -1,14 +1,11 @@
-import axios from 'axios'
-
+import data from '~/helpers/data.js'
 const contentful = require('contentful')
-
-const ITUNES_LOOKUP = 'https://itunes.apple.com/lookup'
 
 export const state = () => ({
   counter: 0
 })
 
-export const mutations = {
+export const mutationss = {
   increment(state) {
     state.counter++
   }
@@ -29,42 +26,27 @@ export const actions = {
       .then((response) => {
         var ids = response.items.map((item) => item.fields.id)
         commit('podcasts/addIds', ids)
+        return ids
+      })
+      .then((ids) => {
         var promises = ids.map(id => {
-          return axios.get(ITUNES_LOOKUP, {
-            params: {
-              id: id.replace('id', '')
-            }
-          })
-            .then((response) => {
-              if (response.data.resultCount !== 0) {
-                const meta = {
-                  name: response.data.results[0].collectionName,
-                  description: response.data.results[0].description,
-                  cover: {
-                    tiny: response.data.results[0].artworkUrl30,
-                    small: response.data.results[0].artworkUrl100,
-                    large: response.data.results[0].artworkUrl600
-                  },
-                  feedUrl: response.data.results[0].feedUrl,
-                  label: {
-                    id: response.data.results[0].artistId,
-                    name: response.data.results[0].artistName
-                  },
-                  categories: response.data.results[0].genreIds.map((id, index) => {
-                    return {
-                      id: id,
-                      name: response.data.results[0].genres[index]
-                    }
-                  })
-                }
-                commit('podcasts/addMeta', { id: id, meta: meta })
-              } else {
-                commit('podcasts/removeId', id)
-              }
-              return response
-            })
+          return data.iTunesLookUp(id)
+            .then(result => ({ id: id, meta: data.iTunesMetaTransformer(result) }))
         })
-
+        return Promise.all(promises)
+      })
+      .then((results) => {
+        var promises = results.map((result) => {
+          if (result.hasOwnProperty('startsWith') && result.startsWith('id')) {
+            commit('podcasts/removeId', result)
+          } else {
+            commit('podcasts/addMeta', result)
+            return data.feedToJson(result.meta.feedUrl).then((data) => {
+              commit('podcasts/addMeta', { id: result.id, meta: data.feed })
+              commit('podcasts/addEpisodes', { id: result.id, episodes: data.items })
+            })
+          }
+        })
         return Promise.all(promises)
       })
       .catch((error) => {
@@ -72,15 +54,10 @@ export const actions = {
       })
   },
   fetchEpisodes({ commit, state }, id) {
-    const feedUrl = state.podcasts.meta[id].feedUrl
-    console.log('feed', feedUrl)
-    axios.get('http://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl))
-      .then((response) => {
-        commit('podcasts/addMeta', { id: id, meta: response.data.feed })
-        commit('podcasts/addEpisodes', { id: id, episodes: response.data.items })
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    // const feedUrl = state.podcasts.meta[id].feedUrl
+    // data.feedToJson(feedUrl).then((data) => {
+    //   commit('podcasts/addMeta', { id: id, meta: data.feed })
+    //   commit('podcasts/addEpisodes', { id: id, episodes: data.items })
+    // })
   }
 }

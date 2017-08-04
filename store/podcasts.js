@@ -14,10 +14,10 @@ export const mutations = {
   },
   addMeta(state, { id, meta }) {
     state.meta[id] = Object.assign({}, state.meta[id], meta)
-    console.log('meta', id, meta)
+    console.log('meta', id)
   },
   addEpisodes(state, { id, episodes }) {
-    console.log('add', episodes)
+    console.log('episodes', id)
     state.episodes[id] = episodes
   }
 }

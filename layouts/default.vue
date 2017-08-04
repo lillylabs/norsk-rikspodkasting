@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="left">
+    <div class="left is-dark">
       <h1>
         <nuxt-link to="/" href="" class="button is-large is-primary">Norsk Rikspodkasting</nuxt-link>
       </h1>
