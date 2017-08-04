@@ -45,9 +45,13 @@ export default {
   components: {
 
   },
-  fetch({ store, params }) {
-    store.dispatch('fetchEpisodes', params.id)
-    return { test: params.id }
+  mounted() {
+    this.$store.dispatch('podcasts/fetchAllEpisodes', this.$route.params.id)
+  },
+  fetch({ store, isServer, params }) {
+    if (isServer) {
+      return store.dispatch('podcasts/loadPodcast', { id: params.id, episodeCount: 200 })
+    }
   }
 }
 </script>

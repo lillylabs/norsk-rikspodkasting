@@ -2,7 +2,7 @@
   <section class="player is-gapless is-primary columns">
     <div class="column is-narrow">
       <a class="image is-48x48">
-        <img :src="$store.state.podcasts.meta[$store.state.podcasts.ids[0]].cover.small">
+        <!-- <img :src="$store.state.podcasts.meta[$store.state.podcasts.ids[0]].cover.small"> -->
       </a>
     </div>
     <div class="column">

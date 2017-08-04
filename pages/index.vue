@@ -10,6 +10,19 @@
   </section>
 </template>
 
+<script>
+export default {
+  components: {
+
+  },
+  fetch({ store, isServer }) {
+    if (!store.state.podcasts.allIsLoaded) {
+      return store.dispatch('podcasts/loadAll')
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 header {
   display: flex;

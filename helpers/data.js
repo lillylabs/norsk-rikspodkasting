@@ -2,7 +2,7 @@ import axios from 'axios'
 const contentful = require('contentful')
 const ITUNES_LOOKUP = 'https://itunes.apple.com/lookup'
 const RSS_2_JSON_KEY = 'wi57s1pdwphq2l6fpudnenl15syhlqozbjdxd74f'
-const RSS_2_JSON_COUNT = '20' // 20 min 200 max
+const RSS_2_JSON_COUNT = '50' // 20 min 200 max
 
 export default {
   podcastIds() {
@@ -20,8 +20,8 @@ export default {
         return response.items.map((item) => item.fields.id)
       })
   },
-  feedToJson(feedUrl) {
-    return axios.get('http://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl) + '&api_key=' + RSS_2_JSON_KEY + '&count' + RSS_2_JSON_COUNT)
+  feedToJson(feedUrl, count) {
+    return axios.get('http://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl) + '&api_key=' + RSS_2_JSON_KEY + '&count=' + (count || RSS_2_JSON_COUNT))
       .then((response) => {
         return response.data
       })
@@ -43,7 +43,7 @@ export default {
     })
       .then((response) => {
         if (response.data.resultCount !== 0) {
-          return Promise.resolve(response.data.results[0])
+          return Promise.resolve(this.iTunesMetaTransformer(response.data.results[0]))
         } else {
           return Promise.reject(id)
         }

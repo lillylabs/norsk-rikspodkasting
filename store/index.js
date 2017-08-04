@@ -1,3 +1,4 @@
+import createLogger from 'vuex/dist/logger'
 import data from '~/helpers/data.js'
 
 export const state = () => ({
@@ -11,39 +12,16 @@ export const mutationss = {
 }
 
 export const actions = {
-  nuxtServerInit({ commit }, { req }) {
+  nuxtServerInit({ commit, dispatch }, { req }) {
     return data.podcastIds()
       .then((ids) => {
         commit('podcasts/addIds', ids)
-        var promises = ids.map(id => {
-          return data.iTunesLookUp(id)
-            .then(result => ({ id: id, meta: data.iTunesMetaTransformer(result) }))
-        })
-        return Promise.all(promises)
+        return ids
       })
-      .then((results) => {
-        var promises = results.map((result) => {
-          if (result.hasOwnProperty('startsWith') && result.startsWith('id')) {
-            commit('podcasts/removeId', result)
-          } else {
-            commit('podcasts/addMeta', result)
-            return data.feedToJson(result.meta.feedUrl).then((data) => {
-              commit('podcasts/addMeta', { id: result.id, meta: data.feed })
-              commit('podcasts/addEpisodes', { id: result.id, episodes: data.items })
-            })
-          }
-        })
-        return Promise.all(promises)
+      .then((ids) => {
+        // return dispatch('podcasts/loadAll')
       })
-      .catch((error) => {
-        console.error(error)
-      })
-  },
-  fetchEpisodes({ commit, state }, id) {
-    // const feedUrl = state.podcasts.meta[id].feedUrl
-    // data.feedToJson(feedUrl).then((data) => {
-    //   commit('podcasts/addMeta', { id: id, meta: data.feed })
-    //   commit('podcasts/addEpisodes', { id: id, episodes: data.items })
-    // })
   }
 }
+
+export const plugins = process.env.NODE_ENV !== 'production' ? [createLogger()] : []
