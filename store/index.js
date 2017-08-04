@@ -12,14 +12,14 @@ export const mutationss = {
 }
 
 export const actions = {
-  nuxtServerInit({ commit, dispatch }, { req }) {
+  nuxtServerInit({ commit, dispatch, state }, { req }) {
     return data.podcastIds()
       .then((ids) => {
         commit('podcasts/addIds', ids)
         return ids
       })
       .then((ids) => {
-        // return dispatch('podcasts/loadAll')
+        return dispatch('podcasts/loadAll')
       })
   }
 }

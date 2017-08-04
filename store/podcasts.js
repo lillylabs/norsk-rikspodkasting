@@ -4,7 +4,7 @@ export const state = () => ({
   ids: [],
   meta: {},
   episodes: {},
-  allIsLoaded: false
+  status: {}
 })
 
 export const mutations = {
@@ -23,43 +23,41 @@ export const mutations = {
     console.log('episodes', id)
     state.episodes[id] = episodes
   },
-  allIsLoaded(state) {
-    state.allIsLoaded = true
+  setStatus(state, { id, status }) {
+    state.status[id] = status
   }
 }
 
 export const actions = {
   loadAll({ dispatch, state, commit }) {
     const promises = state.ids.map((id) => {
-      return dispatch('loadPodcast', { id, episodeCount: 20 })
+      return dispatch('loadPodcast', { id, episodeCount: 5 })
     })
     return Promise.all(promises)
       .then(() => {
-        commit('allIsLoaded')
+        return commit('setStatus', { id: 'ALL', status: true })
       })
   },
-  loadPodcast({ dispatch }, { id, episodeCount }) {
+  loadPodcast({ dispatch, commit }, { id, episodeCount }) {
     return dispatch('fetchMeta', id)
-      .then((id) => {
-        if (id) {
-          return dispatch('fetchEpisodes', { id, episodeCount })
-        }
+      .then(() => {
+        return dispatch('fetchEpisodes', { id, episodeCount })
+      })
+      .then(() => {
+        return commit('setStatus', { id, status: 'INITIAL' })
       })
   },
   fetchMeta({ commit }, id) {
     return data.iTunesLookUp(id)
       .then((meta) => {
-        if (meta.hasOwnProperty('startsWith') && meta.startsWith('id')) {
-          commit('removeId', id)
-          return null
-        } else {
-          commit('addMeta', { id, meta })
-          return id
-        }
+        commit('addMeta', { id, meta })
       })
   },
   fetchEpisodes({ commit, state }, { id, episodeCount }) {
-    return data.feedToJson(state.meta[id].feedUrl, episodeCount)
+    const meta = state.meta[id]
+    if (!meta) return
+
+    return data.feedToJson(meta.feedUrl, episodeCount)
       .then((data) => {
         commit('addMeta', { id, meta: data.feed })
         commit('addEpisodes', { id, episodes: data.items })
@@ -67,5 +65,8 @@ export const actions = {
   },
   fetchAllEpisodes({ commit, dispatch }, id) {
     return dispatch('fetchEpisodes', { id, episodeCount: 200 })
+      .then(() => {
+        return commit('setStatus', { id, status: 'COMPLETE' })
+      })
   }
 }

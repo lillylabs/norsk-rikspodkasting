@@ -9,23 +9,24 @@
         </div>
         <div class="column">
           <h1>{{ $store.state.podcasts.meta[$route.params.id].name }}</h1>
-          <p>{{ $store.state.podcasts.meta[$route.params.id].label.name }}</p>
           <p>
-            <a :href="$store.state.podcasts.meta[$route.params.id].link">Hjemmeside</a>
+            <a :href="$store.state.podcasts.meta[$route.params.id].link">{{ $store.state.podcasts.meta[$route.params.id].label.name }}</a>
           </p>
-          <p class="">{{ $store.state.podcasts.meta[$route.params.id].description }}</p>
+          <div v-html="$store.state.podcasts.meta[$route.params.id].description"></div>
         </div>
       </div>
     </section>
     <section>
       <nav class="menu">
         <p class="menu-label">
-          2017
+          Episoder
         </p>
         <ul class="menu-list">
           <a v-for="episode of $store.state.podcasts.episodes[$route.params.id]" :key="episode.guid">
-            <span>{{ episode.title }}</span>
-            <span class="has-text-grey">({{ episode.pubDate }})</span>
+            <div>
+              <span>{{ episode.title }}</span>
+              <span class="has-text-grey">({{ episode.pubDate }})</span>
+            </div>
   
             <button class="button is-primary is-outline is-small">
               <span class="icon is-small">
@@ -34,6 +35,9 @@
             </button>
           </a>
         </ul>
+        <p class="menu-label" v-if="$store.state.podcasts.status[$route.params.id] !== 'COMPLETE'">
+          Laster flere episoder ...
+        </p>
       </nav>
     </section>
   </article>
@@ -46,12 +50,8 @@ export default {
 
   },
   mounted() {
+    console.log('mounted')
     this.$store.dispatch('podcasts/fetchAllEpisodes', this.$route.params.id)
-  },
-  fetch({ store, isServer, params }) {
-    if (isServer) {
-      return store.dispatch('podcasts/loadPodcast', { id: params.id, episodeCount: 200 })
-    }
   }
 }
 </script>
@@ -70,6 +70,9 @@ article {
 
     >* {
       margin: 0.75rem;
+      span+span {
+        margin-left: 0.75rem;
+      }
 
       +* {
         margin-left: 0;
@@ -78,7 +81,7 @@ article {
   }
 
   .button {
-    margin-left: auto;
+    margin-left: auto !important;
   }
 
   .icon.is-small {

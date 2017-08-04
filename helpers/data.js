@@ -45,11 +45,8 @@ export default {
         if (response.data.resultCount !== 0) {
           return Promise.resolve(this.iTunesMetaTransformer(response.data.results[0]))
         } else {
-          return Promise.reject(id)
+          return Promise.resolve(null)
         }
-      })
-      .catch((error) => {
-        console.error(error)
       })
   },
   iTunesMetaTransformer(meta) {
