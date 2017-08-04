@@ -1,5 +1,4 @@
 import data from '~/helpers/data.js'
-const contentful = require('contentful')
 
 export const state = () => ({
   counter: 0
@@ -13,22 +12,9 @@ export const mutationss = {
 
 export const actions = {
   nuxtServerInit({ commit }, { req }) {
-    const client = contentful.createClient({
-      // This is the space ID. A space is like a project folder in Contentful terms
-      space: process.env.contentfulSpaceId,
-      // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-      accessToken: process.env.contentfulAccessToken
-    })
-
-    return client.getEntries({
-      content_type: 'podcast'
-    })
-      .then((response) => {
-        var ids = response.items.map((item) => item.fields.id)
-        commit('podcasts/addIds', ids)
-        return ids
-      })
+    return data.podcastIds()
       .then((ids) => {
+        commit('podcasts/addIds', ids)
         var promises = ids.map(id => {
           return data.iTunesLookUp(id)
             .then(result => ({ id: id, meta: data.iTunesMetaTransformer(result) }))
