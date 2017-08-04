@@ -1,10 +1,11 @@
 import axios from 'axios'
 const ITUNES_LOOKUP = 'https://itunes.apple.com/lookup'
 const RSS_2_JSON_KEY = 'wi57s1pdwphq2l6fpudnenl15syhlqozbjdxd74f'
+const RSS_2_JSON_COUNT = '1'
 
 export default {
   feedToJson(feedUrl) {
-    return axios.get('http://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl) + '&api_key=' + RSS_2_JSON_KEY + '&count=200')
+    return axios.get('http://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl) + '&api_key=' + RSS_2_JSON_KEY + '&count' + RSS_2_JSON_COUNT)
       .then((response) => {
         return response.data
       })
