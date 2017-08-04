@@ -8,12 +8,14 @@ module.exports = {
   initialData() {
     return this.podcastIds().then(ids => {
       const promises = ids.map((id) => {
+        var iTunesMeta = {}
         return this.iTunesLookUp(id)
           .then((meta) => {
-            return this.feedToJson(meta.feedUrl, 20)
+            iTunesMeta = meta
+            return this.feedToJson(meta.url, 20)
           })
           .then((json) => {
-            return { id, json }
+            return { id, meta: Object.assign(iTunesMeta, json.feed), episodes: json.items }
           })
       })
       return Promise.all(promises)
@@ -22,17 +24,15 @@ module.exports = {
   podcastIds() {
     const client = contentful.createClient({
       // This is the space ID. A space is like a project folder in Contentful terms
-      space: process.env.CONTENTFUL_SPACE_ID || 'afonij0ohzso',
+      space: 'afonij0ohzso',
       // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-      accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b'
+      accessToken: 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b'
     })
 
     return client.getEntries({
-      content_type: 'podcast',
-      limit: '2'
+      content_type: 'podcast'
     })
       .then((response) => {
-        console.log(response)
         return response.items.map((item) => item.fields.id)
       })
   },
@@ -67,14 +67,14 @@ module.exports = {
   },
   iTunesMetaTransformer(meta) {
     return {
-      name: meta.collectionName,
+      title: meta.collectionName,
       description: meta.description,
       cover: {
         tiny: meta.artworkUrl30,
         small: meta.artworkUrl100,
         large: meta.artworkUrl600
       },
-      feedUrl: meta.feedUrl,
+      url: meta.feedUrl,
       label: {
         id: meta.artistId,
         name: meta.artistName

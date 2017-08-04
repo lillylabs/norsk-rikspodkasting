@@ -12,12 +12,11 @@ export const mutationss = {
 }
 
 export const actions = {
-  nuxtServerInit({ commit, dispatch, state }, { req, payload, params }) {
-    if (payload) {
-      return dispatch('podcasts/init', payload)
-    } else {
-      return data.initialData()
+  async nuxtServerInit({ commit, dispatch, state }, { req, payload, params }) {
+    if (!payload) {
+      payload = await data.initialData()
     }
+    return dispatch('podcasts/init', payload)
   }
 }
 

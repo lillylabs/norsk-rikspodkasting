@@ -30,11 +30,11 @@ export const mutations = {
 
 export const actions = {
   init({ commit }, payload) {
-    const ids = payload.map(podcast => {
-      commit('addMeta', { id: podcast.id, meta: podcast.json.feed })
-      commit('addEpisodes', { id: podcast.id, episodes: podcast.json.items })
-      commit('setStatus', { id: podcast.id, status: 'INITIAL' })
-      return podcast.id
+    const ids = payload.map(({ id, meta, episodes }) => {
+      commit('addMeta', { id, meta })
+      commit('addEpisodes', { id, episodes })
+      commit('setStatus', { id, status: 'INITIAL' })
+      return id
     })
     commit('addIds', ids)
   },

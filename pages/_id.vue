@@ -2,15 +2,15 @@
   <article>
     <section class="section">
       <div class="content columns">
-        <div class="column is-2">
+        <div class="column is-3">
           <figure class="image">
-            <img :src="$store.state.podcasts.meta[$route.params.id].image"></img>
+            <img :src="$store.state.podcasts.meta[$route.params.id].cover.large"></img>
           </figure>
         </div>
         <div class="column">
           <h1>{{ $store.state.podcasts.meta[$route.params.id].title }}</h1>
           <p>
-            <a :href="$store.state.podcasts.meta[$route.params.id].link">{{ $store.state.podcasts.meta[$route.params.id].author }}</a>
+            <a :href="$store.state.podcasts.meta[$route.params.id].link">{{ $store.state.podcasts.meta[$route.params.id].label.name }}</a>
           </p>
           <div v-html="$store.state.podcasts.meta[$route.params.id].description"></div>
         </div>

@@ -3,7 +3,7 @@
     <div class="columns is-gapless is-multiline">
       <div class="column is-4 is-3-desktop" v-for="(id, index) of $store.state.podcasts.ids" :key="index">
         <nuxt-link :to="id" class="image is-square">
-          <img :src="$store.state.podcasts.meta[id].image">
+          <img :src="$store.state.podcasts.meta[id].cover.large">
         </nuxt-link>
       </div>
     </div>
