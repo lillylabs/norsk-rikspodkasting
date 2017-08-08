@@ -4,15 +4,15 @@
       <div class="content columns">
         <div class="column is-3">
           <figure class="image">
-            <img :src="$store.state.podcasts.meta[$route.params.id].cover.large"></img>
+            <img :src="meta.cover.large"></img>
           </figure>
         </div>
         <div class="column">
-          <h1>{{ $store.state.podcasts.meta[$route.params.id].title }}</h1>
+          <h1>{{ meta.title }}</h1>
           <p>
-            <a :href="$store.state.podcasts.meta[$route.params.id].link">{{ $store.state.podcasts.meta[$route.params.id].label.name }}</a>
+            <a :href="meta.link">{{ meta.label.name }}</a>
           </p>
-          <div v-html="$store.state.podcasts.meta[$route.params.id].description"></div>
+          <div v-html="meta.description"></div>
         </div>
       </div>
     </section>
@@ -22,7 +22,7 @@
           Episoder
         </p>
         <ul class="menu-list">
-          <a v-for="episode of $store.state.podcasts.episodes[$route.params.id]" :key="episode.guid">
+          <a v-for="episode of episodes" :key="episode.guid">
             <div class="date">
               <span class="day">{{ episode.pubDate | formatDate('D.') }}</span>
               <span class="month">{{ episode.pubDate | formatDate('MMM') }}</span>
@@ -38,7 +38,7 @@
             </button>
           </a>
         </ul>
-        <p class="menu-label" v-if="$store.state.podcasts.status[$route.params.id] !== 'COMPLETE'">
+        <p class="menu-label" v-if="status !== 'COMPLETE'">
           Laster flere episoder ...
         </p>
       </nav>
@@ -47,14 +47,29 @@
 </template>
 
 <script>
-import moment from 'moment'
-moment.locale('nb', {
-  monthsShort: 'jan_feb_mars_april_mai_juni_juli_aug_sep_okt_nov_des'.split('_')
-})
+import { mapState } from 'vuex'
 
 export default {
   components: {
 
+  },
+  data() {
+    return {
+      id: this.$route.params.id
+    }
+  },
+  computed: {
+    ...mapState({
+      meta(state) {
+        return state.podcasts.meta[this.$route.params.id]
+      },
+      episodes(state) {
+        return state.podcasts.episodes[this.id]
+      },
+      status(state) {
+        return state.podcasts.status[this.$route.params.id]
+      }
+    })
   },
   mounted() {
     this.$store.dispatch('podcasts/fetchAllEpisodes', this.$route.params.id)
