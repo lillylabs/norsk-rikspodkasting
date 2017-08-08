@@ -32,6 +32,9 @@ module.exports = {
     'contentful',
     'axios'
   ],
+  plugins: [
+    '~plugins/filters.js'
+  ],
   generate: {
     routes: function () {
       return data.initialData()
@@ -55,7 +58,9 @@ module.exports = {
   */
   build: {
     babel: {
-      plugins: ['transform-es2015-modules-commonjs']
+      plugins: [
+        'transform-es2015-modules-commonjs'
+      ]
     },
     /*
     ** Run ESLINT on save

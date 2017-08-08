@@ -23,9 +23,12 @@
         </p>
         <ul class="menu-list">
           <a v-for="episode of $store.state.podcasts.episodes[$route.params.id]" :key="episode.guid">
+            <div class="date">
+              <span class="day">{{ episode.pubDate | formatDate('D.') }}</span>
+              <span class="month">{{ episode.pubDate | formatDate('MMM') }}</span>
+            </div>
             <div>
               <span>{{ episode.title }}</span>
-              <span class="has-text-grey">({{ episode.pubDate }})</span>
             </div>
   
             <button class="button is-primary is-outline is-small">
@@ -44,6 +47,10 @@
 </template>
 
 <script>
+import moment from 'moment'
+moment.locale('nb', {
+  monthsShort: 'jan_feb_mars_april_mai_juni_juli_aug_sep_okt_nov_des'.split('_')
+})
 
 export default {
   components: {
@@ -60,6 +67,14 @@ article {
   padding: 2rem;
 }
 
+.date {
+  font-size: 0.8rem;
+  span {
+    display: block;
+    text-align: center;
+  }
+}
+
 .menu {
   a {
     display: flex;
@@ -69,13 +84,6 @@ article {
 
     >* {
       margin: 0.75rem;
-      span+span {
-        margin-left: 0.75rem;
-      }
-
-      +* {
-        margin-left: 0;
-      }
     }
   }
 

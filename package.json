@@ -10,6 +10,7 @@
     "contentful": "^4.5.0",
     "feedme": "^1.0.0",
     "font-awesome": "^4.7.0",
+    "moment": "^2.18.1",
     "nuxt": "latest"
   },
   "scripts": {
