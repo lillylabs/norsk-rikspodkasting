@@ -18,26 +18,28 @@
     </section>
     <section>
       <nav class="menu">
-        <p class="menu-label">
-          Episoder
-        </p>
-        <ul class="menu-list">
-          <a v-for="episode of episodes" :key="episode.guid">
-            <div class="date">
-              <span class="day">{{ episode.pubDate | formatDate('D.') }}</span>
-              <span class="month">{{ episode.pubDate | formatDate('MMM') }}</span>
-            </div>
-            <div>
-              <span>{{ episode.title }}</span>
-            </div>
+        <div v-for="year of episodeYears" :key="year">
+          <p class="menu-label">
+            {{ year }}
+          </p>
+          <ul class="menu-list">
+            <a v-for="episode of episodesByYear[year]" :key="episode.guid">
+              <div class="date">
+                <span class="day">{{ episode.pubDate | formatDate('D.') }}</span>
+                <span class="month">{{ episode.pubDate | formatDate('MMM') }}</span>
+              </div>
+              <div>
+                <span>{{ episode.title }}</span>
+              </div>
   
-            <button class="button is-primary is-outline is-small">
-              <span class="icon is-small">
-                <i class="fa fa-play"></i>
-              </span>
-            </button>
-          </a>
-        </ul>
+              <button class="button is-primary is-outline is-small">
+                <span class="icon is-small">
+                  <i class="fa fa-play"></i>
+                </span>
+              </button>
+            </a>
+          </ul>
+        </div>
         <p class="menu-label" v-if="status !== 'COMPLETE'">
           Laster flere episoder ...
         </p>
@@ -48,6 +50,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import moment from 'moment'
 
 export default {
   components: {
@@ -69,7 +72,21 @@ export default {
       status(state) {
         return state.podcasts.status[this.$route.params.id]
       }
-    })
+    }),
+    episodeYears() {
+      return Object.keys(this.episodesByYear).sort((a, b) => a > b ? -1 : 1)
+    },
+    episodesByYear() {
+      return this.episodes.reduce((sorted, episode) => {
+        const year = moment(String(episode.pubDate)).format('YYYY')
+        if (sorted[year]) {
+          sorted[year].push(episode)
+        } else {
+          sorted[year] = [episode]
+        }
+        return sorted
+      }, {})
+    }
   },
   mounted() {
     this.$store.dispatch('podcasts/fetchAllEpisodes', this.$route.params.id)
@@ -91,6 +108,12 @@ article {
 }
 
 .menu {
+  .menu-label {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
   a {
     display: flex;
     align-items: center;
