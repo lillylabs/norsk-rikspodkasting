@@ -31,6 +31,9 @@
               <div>
                 <span>{{ episode.title }}</span>
               </div>
+              <div>
+                <span class="has-text-grey-light">{{ episode.enclosure.duration | formatTime }}</span>
+              </div>
   
               <button class="button is-primary is-outline is-small">
                 <span class="icon is-small">
@@ -123,10 +126,12 @@ article {
     >* {
       margin: 0.75rem;
     }
-  }
 
-  .button {
-    margin-left: auto !important;
+    >*:nth-last-child(2) {
+      margin-left: auto !important;
+      font-size: 0.9rem;
+      flex: 0 0 auto;
+    }
   }
 
   .icon.is-small {
