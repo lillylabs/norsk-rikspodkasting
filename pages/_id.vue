@@ -12,7 +12,7 @@
             <span>{{ meta.title }}</span>
           </h1>
           <p>
-            <a :href="meta.link">{{ meta.label.name }}</a>
+            <a :href="meta.link" target="_blank">{{ meta.label.name }}</a>
           </p>
           <div v-html="meta.description"></div>
         </div>
