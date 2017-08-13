@@ -13,14 +13,14 @@ export const mutations = {
   },
   removeId(state, id) {
     state.ids = state.ids.filter(item => id !== item)
-    console.log('remove', id)
+    // console.log('remove', id)
   },
   addMeta(state, { id, meta }) {
     state.meta[id] = Object.assign({}, state.meta[id], meta)
-    console.log('meta', id)
+    // console.log('meta', id)
   },
   addEpisodes(state, { id, episodes }) {
-    console.log('episodes', id)
+    // console.log('episodes', id)
     state.episodes[id] = episodes
   },
   setStatus(state, { id, status }) {

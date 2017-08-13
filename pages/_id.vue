@@ -8,7 +8,9 @@
           </figure>
         </div>
         <div class="column">
-          <h1>{{ meta.title }}</h1>
+          <h1>
+            <span>{{ meta.title }}</span>
+          </h1>
           <p>
             <a :href="meta.link">{{ meta.label.name }}</a>
           </p>
@@ -17,30 +19,40 @@
       </div>
     </section>
     <section>
-      <nav class="menu">
-        <div v-for="year of episodeYears" :key="year">
-          <p class="menu-label">
+      <nav>
+        <div v-for="year of episodeYears" :key="year" class="playlist">
+          <p class="playlist-label">
             {{ year }}
           </p>
-          <ul class="menu-list">
-            <a v-for="episode of episodesByYear[year]" :key="episode.guid">
-              <div class="date">
-                <span class="day">{{ episode.pubDate | formatDate('D.') }}</span>
-                <span class="month">{{ episode.pubDate | formatDate('MMM') }}</span>
-              </div>
-              <div>
-                <span>{{ episode.title }}</span>
-              </div>
-              <div>
-                <span class="has-text-grey-light">{{ episode.enclosure.duration | formatTime }}</span>
-              </div>
-  
-              <button class="button is-primary is-outline is-small">
-                <span class="icon is-small">
-                  <i class="fa fa-play"></i>
-                </span>
-              </button>
-            </a>
+          <ul class="playlist-items">
+            <li v-for="episode of episodesByYear[year]" :key="episode.guid" @click="selectEpisode(episode.guid)">
+              <header>
+                <div class="date">
+                  <span class="day">{{ episode.pubDate | formatDate('D.') }}</span>
+                  <span class="month">{{ episode.pubDate | formatDate('MMM') }}</span>
+                </div>
+                <div class="info">
+                  <h2 class="title is-6 is-marginless">
+                    <span>{{ episode.title }}</span>
+                  </h2>
+                </div>
+                <div class="meta">
+                  <span class="has-text-grey-light">{{ episode.enclosure.duration | formatTime }}</span>
+                </div>
+                <div class="actions">
+                  <button class="button is-primary is-outline is-small">
+                    <span class="icon is-small">
+                      <i class="fa fa-play"></i>
+                    </span>
+                  </button>
+                </div>
+              </header>
+              <transition name="slide" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+                <div class="description" v-if="selectedEpisode === episode.guid">
+                  <div class="content has-text-grey-dark" v-html="episode.description || 'Ingen beskrivelse'"></div>
+                </div>
+              </transition>
+            </li>
           </ul>
         </div>
         <p class="menu-label" v-if="status !== 'COMPLETE'">
@@ -61,7 +73,9 @@ export default {
   },
   data() {
     return {
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      selectedEpisode: null,
+      transition: 300
     }
   },
   computed: {
@@ -91,6 +105,36 @@ export default {
       }, {})
     }
   },
+  methods: {
+    selectEpisode(guid) {
+      this.selectedEpisode = this.selectedEpisode === guid ? null : guid
+      console.log(this.selectedEpisode)
+    },
+    beforeEnter: function (el) {
+      el.style.height = '0px'
+      el.style.overflow = 'hidden'
+    },
+    enter: function (el, done) {
+      const clone = el.cloneNode(true)
+      clone.style.width = el.style.width
+      clone.style.visibility = 'hidden'
+      clone.style.removeProperty('display')
+      clone.style.removeProperty('height')
+      el.parentNode.appendChild(clone)
+      const height = clone.clientHeight
+      clone.remove()
+
+      el.style.height = height + 'px'
+      el.style.transition = `height ${this.transition}ms ease-in-out`
+      setTimeout(() => { done() }, this.transition)
+      // done()
+    },
+    leave: function (el, done) {
+      el.style.height = '0px'
+      // done()
+      setTimeout(() => { done() }, this.transition)
+    }
+  },
   mounted() {
     this.$store.dispatch('podcasts/fetchAllEpisodes', this.$route.params.id)
   }
@@ -100,43 +144,5 @@ export default {
 <style lang="scss" scoped>
 article {
   padding: 2rem;
-}
-
-.date {
-  font-size: 0.8rem;
-  span {
-    display: block;
-    text-align: center;
-  }
-}
-
-.menu {
-  .menu-label {
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem;
-  }
-
-  a {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid hsl(0, 0%, 96%);
-    padding: 0;
-
-    >* {
-      margin: 0.75rem;
-    }
-
-    >*:nth-last-child(2) {
-      margin-left: auto !important;
-      font-size: 0.9rem;
-      flex: 0 0 auto;
-    }
-  }
-
-  .icon.is-small {
-    height: 1rem;
-    width: 1rem;
-  }
 }
 </style>

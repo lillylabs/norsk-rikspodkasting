@@ -26,3 +26,112 @@ body {
 .is-light {
   background: $light;
 }
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+// Page transitions
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+}
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+// Episodes
+
+.playlist {
+  $dateWidth: 4rem;
+
+  .playlist-label {
+    color: $menu-label-color;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    text-align: center;
+
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    
+    width: $dateWidth;
+  }
+
+  .playlist-items > * {
+    border-bottom: 1px solid hsl(0, 0%, 96%);
+    padding: 1rem 0;
+
+    &:hover {
+      background-color: $menu-item-hover-background-color;
+      color: $menu-item-hover-color;
+    }
+    
+  > header {
+    display: flex;
+    align-items: center;
+    color: $menu-item-color;
+
+    >:last-child {
+      margin-right: 1rem;
+    }
+
+    .date,
+    .meta {
+      flex: 0 0 auto;
+    }
+
+    .meta {
+      margin-right: 1rem;
+    }
+
+    .info {
+      flex: 1 1 auto;
+    }
+
+    .actions {
+      .button {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+
+    .title {
+      span {
+        display: inline-block;
+        line-height: 1;
+
+        &:hover {
+          cursor: pointer;
+          border-bottom: 2px solid $orange;
+        }
+      }
+    }
+
+    .date {
+      width: $dateWidth;
+      font-size: 0.8rem;
+      
+      span {
+        display: block;
+        line-height: 1rem;
+        text-align: center;
+      }
+    }
+
+  }
+
+  .content {
+      margin: 0 $dateWidth;
+      padding-top: 0.5rem;
+
+      /deep/ img {
+        display: none;
+      }
+
+      /deep/ strong {
+        color: currentColor;
+        font-weight: 600;
+      }
+    }
+  }
+}
