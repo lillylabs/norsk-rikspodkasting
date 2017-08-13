@@ -29,9 +29,15 @@ module.exports = {
       accessToken: 'fb79fd325ae791321424da9f8690625825d9e0d294b094ba23a8ba4237f8395b'
     })
 
-    return client.getEntries({
+    const options = {
       content_type: 'podcast'
-    })
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      options.limit = 5
+    }
+
+    return client.getEntries(options)
       .then((response) => {
         return response.items.map((item) => item.fields.id)
       })
