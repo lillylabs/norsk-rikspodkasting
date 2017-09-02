@@ -33,12 +33,9 @@ header {
 
 .image {
   transition: all 250ms ease-out;
-  filter: grayscale(100%);
-  opacity: 0.75;
 
   &:hover {
-    filter: none;
-    opacity: 1;
+    filter: grayscale(100%) brightness(90%);
   }
 }
 </style>
