@@ -1,9 +1,9 @@
 <template>
   <section v-if="current" class="player is-gapless columns">
     <div class="column is-narrow">
-      <a class="image is-48x48">
+      <nuxt-link :to="current.id" class="image is-48x48">
         <img :src="current.meta.cover.small">
-      </a>
+      </nuxt-link>
     </div>
     <div class="column">
       <div class="is-dark">{{ current.episode.title }}</div>
@@ -11,7 +11,7 @@
     </div>
     <div class="column is-narrow">
       <button class="button is-primary is-outline is-small" :class="{ 'is-loading': isLoading(audioSrc) }" @click.stop="toggleAudio(audioSrc)">
-        <span class="icon is-small">
+        <span class="icon">
           <i class="fa" :class="{ 'fa-play': isPaused(audioSrc), 'fa-pause': isPlaying(audioSrc), 'fa-exclamation-triangle': isError(audioSrc) }"></i>
         </span>
       </button>
@@ -45,7 +45,6 @@ export default {
       return this.current ? this.current.episode.enclosure.duration : ''
     },
     audioTime() {
-      console.log('time')
       return this.time(this.audioSrc)
     },
     progress() {
@@ -62,6 +61,14 @@ export default {
 
 
 <style lang="scss" scoped>
+
+img {
+  transition: all 250ms ease-out;
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
 .button {
   height: 100%;
   width: 48px;

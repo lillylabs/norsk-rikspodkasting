@@ -26,7 +26,7 @@ export const getters = {
       const episodes = state.podcasts.episodes[podcastId]
       const episode = episodes.find((episode) => getters['audio/isAudioSrc'](episode.enclosure.link))
       if (episode) {
-        return { meta: state.podcasts.meta[podcastId], episode }
+        return { meta: state.podcasts.meta[podcastId], episode, id: podcastId }
       }
     }
   }
