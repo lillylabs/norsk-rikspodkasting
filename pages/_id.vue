@@ -40,15 +40,15 @@
                   <span class="has-text-grey-light">{{ episode.enclosure.duration | formatTime }}</span>
                 </div>
                 <div class="actions">
-                  <button class="button is-primary is-outline is-small">
+                  <button class="button is-primary is-outline is-small" :class="{ 'is-loading': isLoading(episode.enclosure.link) }" @click.stop="toggleAudio(episode.enclosure.link)">
                     <span class="icon is-small">
-                      <i class="fa fa-play"></i>
+                      <i class="fa" :class="{ 'fa-play': isPaused(episode.enclosure.link), 'fa-pause': isPlaying(episode.enclosure.link), 'fa-exclamation-triangle': isError(episode.enclosure.link) }"></i>
                     </span>
                   </button>
                 </div>
               </header>
               <transition name="slide" @before-enter="beforeEnter" @enter="enter" @leave="leave">
-                <div class="description" v-if="selectedEpisode === episode.guid">
+                <div class="description" v-if="selectedEpisodeGuid === episode.guid">
                   <div class="content has-text-grey-dark" v-html="episode.description || 'Ingen beskrivelse'"></div>
                 </div>
               </transition>
@@ -64,8 +64,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import moment from 'moment'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -74,7 +73,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      selectedEpisode: null,
+      selectedEpisodeGuid: null,
       transition: 300
     }
   },
@@ -90,12 +89,19 @@ export default {
         return state.podcasts.status[this.$route.params.id]
       }
     }),
+    ...mapGetters('audio', [
+      'isPlaying',
+      'isPaused',
+      'isLoading',
+      'isError'
+    ]),
     episodeYears() {
       return Object.keys(this.episodesByYear).sort((a, b) => a > b ? -1 : 1)
     },
     episodesByYear() {
       return this.episodes.reduce((sorted, episode) => {
-        const year = moment(String(episode.pubDate)).format('YYYY')
+        const date = new Date(String(episode.pubDate))
+        const year = date.getFullYear()
         if (sorted[year]) {
           sorted[year].push(episode)
         } else {
@@ -106,15 +112,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions('audio', [
+      'toggleAudio'
+    ]),
     selectEpisode(guid) {
-      this.selectedEpisode = this.selectedEpisode === guid ? null : guid
-      console.log(this.selectedEpisode)
+      this.selectedEpisodeGuid = this.selectedEpisodeGuid === guid ? null : guid
     },
-    beforeEnter: function (el) {
+    beforeEnter(el) {
       el.style.height = '0px'
       el.style.overflow = 'hidden'
     },
-    enter: function (el, done) {
+    enter(el, done) {
       const clone = el.cloneNode(true)
       clone.style.width = el.style.width
       clone.style.visibility = 'hidden'
@@ -129,7 +137,7 @@ export default {
       setTimeout(() => { done() }, this.transition)
       // done()
     },
-    leave: function (el, done) {
+    leave(el, done) {
       el.style.height = '0px'
       // done()
       setTimeout(() => { done() }, this.transition)
