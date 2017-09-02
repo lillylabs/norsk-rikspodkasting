@@ -1,13 +1,13 @@
 <template>
   <article>
     <section class="section">
-      <div class="content columns">
+      <div class="columns">
         <div class="column is-3">
           <figure class="image">
             <img :src="meta.cover.large"></img>
           </figure>
         </div>
-        <div class="column">
+        <div class="column content">
           <h1>
             <span>{{ meta.title }}</span>
           </h1>
