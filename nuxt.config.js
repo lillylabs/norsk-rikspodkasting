@@ -1,4 +1,5 @@
 const data = require('./helpers/data.js')
+const podcastIds = require('./data/podcasts.json')
 
 module.exports = {
   /*
@@ -29,7 +30,6 @@ module.exports = {
     { src: '~assets/main.scss', lang: 'scss' },
   ],
   vendor: [
-    'contentful',
     'axios',
     'date-fns'
   ],
@@ -38,7 +38,7 @@ module.exports = {
   ],
   generate: {
     routes: function () {
-      return data.initialData()
+      return data.initialData(podcastIds)
         .then((data) => {
           var routes = data.map(({ id, json }) => {
             return {

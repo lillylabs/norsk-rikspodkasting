@@ -1,5 +1,6 @@
 const data = require('~/helpers/data.js')
 import { audio } from '~/plugins/audio.js'
+import podcastIds from '~/data/podcasts.json'
 
 export const state = () => ({
   counter: 0
@@ -14,7 +15,7 @@ export const mutationss = {
 export const actions = {
   async nuxtServerInit({ commit, dispatch, state }, { req, payload, params }) {
     if (!payload) {
-      payload = await data.initialData()
+      payload = await data.initialData(podcastIds)
     }
     return dispatch('podcasts/init', payload)
   }
