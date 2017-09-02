@@ -1,5 +1,5 @@
-import createLogger from 'vuex/dist/logger'
 const data = require('~/helpers/data.js')
+import { audio } from '~/plugins/audio.js'
 
 export const state = () => ({
   counter: 0
@@ -20,4 +20,16 @@ export const actions = {
   }
 }
 
-export const plugins = process.env.NODE_ENV !== 'production' ? [createLogger()] : []
+export const getters = {
+  current(state, getters) {
+    for (let podcastId of Object.keys(state.podcasts.episodes)) {
+      const episodes = state.podcasts.episodes[podcastId]
+      const episode = episodes.find((episode) => getters['audio/isAudioSrc'](episode.enclosure.link))
+      if (episode) {
+        return { meta: state.podcasts.meta[podcastId], episode }
+      }
+    }
+  }
+}
+
+export const plugins = [audio]

@@ -1,22 +1,65 @@
 <template>
-  <section class="player is-gapless is-primary columns">
+  <section v-if="current" class="player is-gapless columns">
     <div class="column is-narrow">
       <a class="image is-48x48">
-        <!-- <img :src="$store.state.podcasts.meta[$store.state.podcasts.ids[0]].cover.small"> -->
+        <img :src="current.meta.cover.small">
       </a>
     </div>
     <div class="column">
-      <progress class="progress is-large" value="30" max="100">30%</progress>
+      <div class="is-dark">{{ current.episode.title }}</div>
+      <progress class="progress is-large" :value="progress" max="100">{{ `${progress}%`}}</progress>
     </div>
     <div class="column is-narrow">
-      <a class="button is-primary is-outline">
+      <button class="button is-primary is-outline is-small" :class="{ 'is-loading': isLoading(audioSrc) }" @click.stop="toggleAudio(audioSrc)">
         <span class="icon is-small">
-          <i class="fa fa-play"></i>
+          <i class="fa" :class="{ 'fa-play': isPaused(audioSrc), 'fa-pause': isPlaying(audioSrc), 'fa-exclamation-triangle': isError(audioSrc) }"></i>
         </span>
-      </a>
+      </button>
     </div>
   </section>
 </template>
+
+<script>
+
+import { mapActions, mapGetters, mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapState({
+      test: (state) => state.audio.time
+    }),
+    ...mapGetters([
+      'current'
+    ]),
+    ...mapGetters('audio', [
+      'time',
+      'isPlaying',
+      'isPaused',
+      'isLoading',
+      'isError'
+    ]),
+    audioSrc() {
+      return this.current ? this.current.episode.enclosure.link : ''
+    },
+    audioDuration() {
+      return this.current ? this.current.episode.enclosure.duration : ''
+    },
+    audioTime() {
+      console.log('time')
+      return this.time(this.audioSrc)
+    },
+    progress() {
+      return this.current ? this.audioTime / this.audioDuration * 100 : 0
+    }
+  },
+  methods: {
+    ...mapActions('audio', [
+      'toggleAudio'
+    ])
+  }
+}
+</script>
+
 
 <style lang="scss" scoped>
 .button {
@@ -24,9 +67,17 @@
   width: 48px;
 }
 
+.is-dark {
+  padding: 0 0.5rem;
+  font-size: 0.8rem;
+  height: 28px;
+  line-height: 28px;
+}
+
 .progress {
-  height: 100%;
   border-radius: 0;
+  margin-bottom: 0;
+  height: 20px;
 }
 </style>
 

@@ -1,26 +1,18 @@
 import Vue from 'vue'
-import moment from 'moment'
 
-moment.locale('nb')
-moment.updateLocale('nb', {
-  monthsShort: 'jan_feb_mars_april_mai_juni_juli_aug_sep_okt_nov_des'.split('_'),
-  relativeTime: {
-    m: 'ett min',
-    mm: '%d min'
-  }
-})
+import { distanceInWordsStrict, format, addMilliseconds } from 'date-fns'
+var nbLocale = require('date-fns/locale/nb')
 
 Vue.filter('capitalize', val => val.toUpperCase())
 
-Vue.filter('formatDate', function (value, format) {
+Vue.filter('formatDate', function (value, formatting) {
   if (value) {
-    return moment(String(value)).format(format)
+    return format(new Date(value), formatting, { locale: nbLocale })
   }
 })
 
-Vue.filter('formatTime', function (value) {
-  if (value) {
-    // return moment.duration(String(value), 'milliseconds').humanize()
-    return moment.duration(parseInt(value), 'seconds').humanize()
+Vue.filter('formatTime', function (seconds) {
+  if (seconds) {
+    return distanceInWordsStrict(new Date(), addMilliseconds(new Date(), seconds * 1000), { locale: nbLocale })
   }
 })

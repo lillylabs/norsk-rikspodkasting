@@ -13,7 +13,10 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/jpeg', href: '/hero.jpg' }
-    ]
+    ],
+    script: [
+      { src: 'https://use.fortawesome.com/1d274b44.js' }
+    ],
   },
   /*
   ** Customize the progress-bar color
@@ -23,14 +26,12 @@ module.exports = {
   ** Include css not in components
   */
   css: [
-    // node.js module but we specify the pre-processor
     { src: '~assets/main.scss', lang: 'scss' },
-    // { src: 'bulma/bulma.sass', lang: 'sass' },
-    { src: 'font-awesome/scss/font-awesome.scss', lang: 'scss' },
   ],
   vendor: [
     'contentful',
-    'axios'
+    'axios',
+    'date-fns'
   ],
   plugins: [
     '~plugins/filters.js'
