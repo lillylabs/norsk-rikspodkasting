@@ -1,9 +1,14 @@
 <template>
   <div>
     <div class="left is-dark">
-      <h1>
-        <nuxt-link to="/" href="" class="button is-large is-primary">Norsk Rikspodkasting</nuxt-link>
-      </h1>
+      <header>
+        <nuxt-link to="/" href="" class="button is-large is-primary" title="Forside">Norsk Rikspodkasting</nuxt-link>
+        <nuxt-link to="/info" href="" class="button is-large is-primary" title="Om Norsk Rikspodkasting">
+          <span class="icon is-medium">
+            <i class="fa fa-info"></i>
+          </span>
+        </nuxt-link>
+      </header>
       <player></player>
     </div>
     <div class="right">
@@ -24,6 +29,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+header {
+  margin: -0.5rem;
+
+  .button {
+    margin: 0.5rem;
+  }
+}
+
 $sidebar: 35vw;
 
 .left {
