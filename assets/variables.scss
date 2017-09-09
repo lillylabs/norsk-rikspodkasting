@@ -1,0 +1,21 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+// 1. Initial variables
+
+// Colors
+$orange: #f36c00;
+$orange-invert: #fff;
+
+// Miscellaneous
+$radius-small: 0;
+$radius: 0;
+$radius-large: 0;
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+// 2. Primary colors
+
+$primary: $orange;
+$primary-invert: $orange-invert;

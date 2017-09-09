@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div class="columns is-gapless is-multiline">
-      <div class="column is-4 is-3-desktop" v-for="(id, index) of $store.state.podcasts.ids" :key="index">
+    <div class="catalog">
+      <div class="item" v-for="(id, index) of $store.state.podcasts.ids" :key="index">
         <nuxt-link :to="id">
           <div class="image is-square">
             <lazy-image :src="$store.state.podcasts.meta[id].cover.large" />
@@ -24,6 +24,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.catalog {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.5rem;
+
+  .item {
+    width: 33.33%;
+    padding: 0.5rem;
+  }
+}
+
+@media (min-width: 568px) {
+  .catalog {
+    .item {
+      width: 25%;
+    }
+  }
+}
+
+@media (min-width: 876px) {
+  .catalog {
+    margin: -1.25vw;
+
+    .item {
+      width: 33.33%;
+      padding: 1.25vw;
+    }
+  }
+}
+
 header {
   display: flex;
   flex-direction: column;
