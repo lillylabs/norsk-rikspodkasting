@@ -1,14 +1,21 @@
 <template>
   <div>
     <div class="left is-dark">
-      <header>
-        <nuxt-link to="/" href="" class="button is-large is-primary" title="Forside">Norsk Rikspodkasting</nuxt-link>
-        <nuxt-link to="/info" href="" class="button is-large is-primary" title="Om Norsk Rikspodkasting">
-          <span class="icon is-medium">
+      <div>
+        <header>
+          <nuxt-link to="/" href="" class="button is-large is-primary" title="Forside">Norsk Rikspodkasting</nuxt-link>
+        </header>
+        <nuxt-link to="/info" href="" class="button is-primary" title="Om Norsk Rikspodkasting">
+          <span class="icon">
             <i class="fa fa-info"></i>
           </span>
         </nuxt-link>
-      </header>
+        <a href="https://www.facebook.com/norskrikspodkasting/" target="_blank" class="button is-primary" title="Facebookside">
+          <span class="icon">
+            <i class="fa fa-facebook"></i>
+          </span>
+        </a>
+      </div>
       <player></player>
     </div>
     <div class="right">

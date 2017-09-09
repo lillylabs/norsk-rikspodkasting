@@ -4,7 +4,8 @@
       <h1 class="title">Norsk Rikspodkasting</h1>
       <div class="content">
         <p>
-          Velkommen til Benedicte's teknologiske lekegrind og samleside for norske podkaster.
+          Velkommen til
+          <a href="https://twitter.com/raae" target="_blank">Benedicte</a>'s teknologiske lekegrind og samleside for norske podkaster.
         </p>
         <h2>Nyhetsbrev</h2>
         <p>Synes du Norsk rikspodkasting er en god idé? Vil du få beskjed når nye podkaster legges til og/eller det kommer store forbedringer?</p>
