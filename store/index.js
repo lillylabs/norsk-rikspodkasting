@@ -24,7 +24,7 @@ export const actions = {
 export const getters = {
   current(state, getters) {
     for (let podcastId of Object.keys(state.podcasts.episodes)) {
-      const episodes = state.podcasts.episodes[podcastId]
+      const episodes = state.podcasts.episodes[podcastId] || []
       const episode = episodes.find((episode) => getters['audio/isAudioSrc'](episode.enclosure.link))
       if (episode) {
         return { meta: state.podcasts.meta[podcastId], episode, id: podcastId }
