@@ -34,7 +34,8 @@ module.exports = {
     'date-fns'
   ],
   plugins: [
-    '~plugins/filters.js'
+    '~plugins/filters.js',
+    { src: '~plugins/ga.js', ssr: false }
   ],
   generate: {
     routes: function () {
