@@ -1,5 +1,5 @@
 const data = require('./helpers/data.js')
-const podcastIds = require('./data/podcasts.json')
+const podcastIds = require('./data/podcasts.production.json')
 
 module.exports = {
   /*
