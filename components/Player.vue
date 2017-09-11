@@ -1,5 +1,5 @@
 <template>
-  <section v-if="current" class="player is-gapless columns">
+  <section v-if="current" class="player is-gapless is-mobile columns">
     <div class="column is-narrow">
       <nuxt-link :to="current.id" class="image is-48x48">
         <img :src="current.meta.cover.small">
@@ -61,7 +61,6 @@ export default {
 
 
 <style lang="scss" scoped>
-
 img {
   transition: all 250ms ease-out;
   &:hover {

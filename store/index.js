@@ -1,6 +1,6 @@
+import { audio } from '~/plugins/audio.js'
 const data = require('~/helpers/data.js')
 const podcastIds = require('~/data/podcasts.' + process.env.NODE_ENV + '.json')
-import { audio } from '~/plugins/audio.js'
 
 export const state = () => ({
   counter: 0
