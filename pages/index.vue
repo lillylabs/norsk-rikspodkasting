@@ -53,7 +53,7 @@ export default {
       padding: 1.25vw;
 
       a {
-        border: 1px solid hsl(0, 0%, 96%);
+        border: 1px solid white;
       }
     }
   }
