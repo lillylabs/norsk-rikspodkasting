@@ -98,8 +98,8 @@ body {
 
     .title {
       span {
-        display: inline-block;
         line-height: 1;
+        border-bottom: 2px solid transparent;
 
         &:hover {
           cursor: pointer;
