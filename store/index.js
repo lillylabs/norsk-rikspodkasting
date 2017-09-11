@@ -1,6 +1,6 @@
-const data = require('~/helpers/data.js')
 import { audio } from '~/plugins/audio.js'
-import podcastIds from '~/data/podcasts.json'
+const data = require('~/helpers/data.js')
+const podcastIds = require('~/data/podcasts.' + process.env.NODE_ENV + '.json')
 
 export const state = () => ({
   counter: 0

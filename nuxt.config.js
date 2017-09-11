@@ -1,5 +1,5 @@
 const data = require('./helpers/data.js')
-const podcastIds = require('./data/podcasts.json')
+const podcastIds = require('./data/podcasts.production.json')
 
 module.exports = {
   /*
@@ -17,7 +17,7 @@ module.exports = {
     ],
     script: [
       { src: 'https://use.fortawesome.com/1d274b44.js' }
-    ],
+    ]
   },
   /*
   ** Customize the progress-bar color
@@ -27,15 +27,15 @@ module.exports = {
   ** Include css not in components
   */
   css: [
-    { src: '~assets/main.scss', lang: 'scss' },
+    { src: '~/assets/main.scss', lang: 'scss' }
   ],
   vendor: [
     'axios',
     'date-fns'
   ],
   plugins: [
-    '~plugins/filters.js',
-    { src: '~plugins/ga.js', ssr: false }
+    '~/plugins/filters.js',
+    { src: '~/plugins/ga.js', ssr: false }
   ],
   generate: {
     routes: function () {
@@ -68,7 +68,7 @@ module.exports = {
     ** Run ESLINT on save
     */
     extend(config, ctx) {
-      if (ctx.isClient) {
+      if (ctx.dev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
