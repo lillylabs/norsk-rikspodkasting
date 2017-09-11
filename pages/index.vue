@@ -22,6 +22,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~assets/utilities";
 .catalog {
   display: flex;
   flex-wrap: wrap;
@@ -43,17 +44,17 @@ export default {
   }
 }
 
-@media (min-width: 876px) {
+@media (min-width: $sidebar-min) {
   .catalog {
-    margin: -1.25vw;
+    margin: - $padding-large/4;
 
     .item {
       width: 33.333333333%;
       flex: 0 0 33.33%;
-      padding: 1.25vw;
+      padding: $padding-large/4;
 
       a {
-        border: 1px solid white;
+        border: 1px solid $white;
       }
     }
   }

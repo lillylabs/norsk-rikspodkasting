@@ -1,23 +1,20 @@
 <template>
   <article>
-    <section class="section">
-      <div class="columns">
-        <div class="column is-3">
-          <figure class="image">
-            <img :src="meta.cover.large"></img>
-          </figure>
-        </div>
-        <div class="column content">
-          <h1>
-            <span>{{ meta.title }}</span>
-          </h1>
-          <p>
-            <a :href="meta.link" target="_blank">{{ meta.label.name }}</a>
-          </p>
-          <div v-html="meta.description"></div>
-        </div>
+    <header>
+      <div>
+        <figure class="image is-square">
+          <img :src="meta.cover.large"></img>
+        </figure>
       </div>
-    </section>
+      <div>
+        <h1 class="title">
+          <span>{{ meta.title }}</span>
+        </h1>
+        <p class="subtitle">
+          <a :href="meta.link" target="_blank">{{ meta.label.name }}</a>
+        </p>
+      </div>
+    </header>
     <section>
       <nav>
         <div v-for="year of episodeYears" :key="year" class="playlist">
@@ -150,7 +147,116 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-article {
-  padding: 2rem;
+@import "~assets/utilities";
+
+article>header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $white;
+
+  @media (min-width: $sidebar-min) {
+    border: 1px solid $white;
+  }
+
+  >*:first-child {
+    width: calc(33.33% - 2.5vw);
+    flex: 0 0 auto;
+    border-right: 1px solid $white;
+    margin-right: 2.5vw;
+  }
+}
+
+.playlist {
+  $dateWidth: 4rem;
+
+  .playlist-label {
+    color: $text-light;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    text-align: center;
+
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    width: $dateWidth;
+  }
+
+  .playlist-items>* {
+    border-top: 1px solid $light;
+    padding: 1rem 0;
+    background: white;
+
+    &:last-child {
+      border-bottom: 1px solid $white;
+    }
+
+    &:hover {
+      background-color: $background;
+      border-color: $white;
+      color: $text-strong;
+      cursor: pointer;
+    }
+
+    >header {
+      display: flex;
+      align-items: center;
+      color: $text;
+
+      >:last-child {
+        margin-right: 1rem;
+      }
+
+      .date,
+      .meta {
+        flex: 0 0 auto;
+      }
+
+      .meta {
+        margin-right: 1rem;
+      }
+
+      .info {
+        flex: 1 1 auto;
+      }
+
+      .actions {
+        .button {
+          height: 2rem;
+          width: 2rem;
+        }
+      }
+
+      .title {
+        span {
+          line-height: 1;
+        }
+      }
+
+      .date {
+        width: $dateWidth;
+        font-size: 0.8rem;
+
+        span {
+          display: block;
+          line-height: 1rem;
+          text-align: center;
+        }
+      }
+    }
+
+    .content {
+      margin: 0 $dateWidth;
+      padding-top: 0.5rem;
+
+      /deep/ img {
+        display: none;
+      }
+
+      /deep/ strong {
+        color: currentColor;
+        font-weight: 600;
+      }
+    }
+  }
 }
 </style>

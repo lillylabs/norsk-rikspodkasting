@@ -37,10 +37,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~assets/utilities";
+
 .background {
   background-image: url('/hero-alt.jpg');
   background-size: cover;
   background-position: left top;
+  background-color: $dark;
 
   position: fixed;
   top: 0;
@@ -63,15 +66,11 @@ header {
 main {
   margin-top: 40vh;
   min-height: 60vh;
-  border: 0 solid hsl(0, 0%, 96%);
+  border: 0 solid $light;
   border-top-width: 1px;
-  background: hsl(0, 0%, 96%);
-  padding-bottom: 48px; // room for player
-  article {
-    background: white;
-    padding: 2rem;
-    padding-top: 3rem;
-  }
+  background: $light;
+  /* Room for player */
+  padding-bottom: 48px;
 }
 
 .player {
@@ -85,30 +84,26 @@ main {
   z-index: 10;
 }
 
-@media (min-width: 876px) {
+@media (min-width: $sidebar-min) {
   header {
     z-index: 1;
   }
 
   .player {
-    width: 35vw;
+    width: $sidebar;
   }
 
   .background {
-    width: 35vw;
+    width: $sidebar;
   }
 
   main {
-    padding: 5vw;
+    padding: $padding-large;
     margin-top: 0;
-    margin-left: 35vw;
+    margin-left: $sidebar;
     overflow-y: scroll;
     border-top-width: 0;
     border-left-width: 1px;
-
-    article {
-      padding: 4.5vw;
-    }
   }
 }
 </style>

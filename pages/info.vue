@@ -27,6 +27,20 @@
 </template>
 
 <style lang="scss" scoped>
+@import "~assets/utilities";
+
+article {
+  padding: 2rem;
+  padding-top: 3rem;
+  background: $white;
+}
+
+@media (min-width: $sidebar-min) {
+  article {
+    padding: $padding-large;
+  }
+}
+
 .content {
   max-width: 32rem;
 

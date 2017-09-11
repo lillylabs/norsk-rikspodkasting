@@ -19,3 +19,16 @@ $radius-large: 0;
 
 $primary: $orange;
 $primary-invert: $orange-invert;
+
+@import "~bulma/sass/utilities/functions";
+@import "~bulma/sass/utilities/derived-variables";
+@import "~bulma/sass/utilities/animations";
+@import "~bulma/sass/utilities/mixins";
+@import "~bulma/sass/utilities/controls";
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+$sidebar: 35vw;
+$sidebar-min: 876px;  
+$padding-large: 5vw;
