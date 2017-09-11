@@ -58,7 +58,8 @@ header {
   padding: 1rem;
   top: 0;
   left: 0;
-  width: 100vw;
+
+  z-index: -1;
 }
 
 main {
@@ -68,6 +69,11 @@ main {
   border: 0 solid hsl(0, 0%, 96%);
   border-top-width: 1px;
   background: rgba(hsl(0, 0%, 96%), 0.8);
+
+  article {
+    background: hsl(0, 0%, 96%);
+    padding: 1rem;
+  }
 }
 
 .player {
@@ -80,6 +86,10 @@ main {
 }
 
 @media (min-width: 876px) {
+  header {
+    z-index: 1;
+  }
+
   main {
     padding: 5vw;
     margin-top: 0;
@@ -87,6 +97,10 @@ main {
     overflow-y: scroll;
     border-top-width: 0;
     border-left-width: 1px;
+
+    article {
+      padding: 5vw;
+    }
   }
 }
 </style>

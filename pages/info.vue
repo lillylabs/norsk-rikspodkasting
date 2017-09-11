@@ -27,10 +27,6 @@
 </template>
 
 <style lang="scss" scoped>
-article {
-  padding: 4rem;
-}
-
 .content {
   max-width: 32rem;
 

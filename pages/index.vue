@@ -1,13 +1,11 @@
 <template>
-  <section>
-    <div class="catalog">
-      <div class="item" v-for="(id, index) of $store.state.podcasts.ids" :key="index">
-        <nuxt-link :to="id">
-          <div class="image is-square">
-            <lazy-image :src="$store.state.podcasts.meta[id].cover.large" />
-          </div>
-        </nuxt-link>
-      </div>
+  <section class="catalog">
+    <div class="item" v-for="(id, index) of $store.state.podcasts.ids" :key="index">
+      <nuxt-link :to="id">
+        <div class="image is-square">
+          <lazy-image :src="$store.state.podcasts.meta[id].cover.large" />
+        </div>
+      </nuxt-link>
     </div>
   </section>
 </template>
@@ -30,7 +28,7 @@ export default {
   margin: -0.5rem;
 
   .item {
-    width: 33.33%;
+    width: 33%;
     padding: 0.5rem;
   }
 }
