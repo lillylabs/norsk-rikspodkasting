@@ -25,11 +25,9 @@ export default {
 .catalog {
   display: flex;
   flex-wrap: wrap;
-  margin: -0.5rem;
 
   .item {
-    width: 33%;
-    padding: 0.5rem;
+    width: 50%;
   }
 }
 
@@ -60,8 +58,7 @@ header {
 }
 
 .image {
-  transition: all 250ms ease-out;
-
+  transition: filter 250ms ease-out;
   &:hover {
     filter: grayscale(100%) brightness(90%);
   }

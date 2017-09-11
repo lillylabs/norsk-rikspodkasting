@@ -17,7 +17,7 @@
       </a>
 
     </header>
-    <!-- <player></player> -->
+    <player></player>
     <main>
       <nuxt/>
     </main>
@@ -64,7 +64,6 @@ header {
 
 main {
   margin-top: 40vh;
-  padding: 1rem;
   min-height: 60vh;
   border: 0 solid hsl(0, 0%, 96%);
   border-top-width: 1px;
@@ -72,8 +71,11 @@ main {
 
   article {
     background: hsl(0, 0%, 96%);
-    padding: 1rem;
+    padding: 2rem;
+    padding-top: 3rem;
   }
+
+  padding-bottom: calc(48px+1rem);
 }
 
 .player {
@@ -83,11 +85,17 @@ main {
   width: 100vw;
 
   margin: 0 !important;
+
+  z-index: 10;
 }
 
 @media (min-width: 876px) {
   header {
     z-index: 1;
+  }
+
+  .player {
+    width: 35vw;
   }
 
   main {
