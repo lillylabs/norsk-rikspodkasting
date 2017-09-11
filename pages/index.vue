@@ -27,7 +27,11 @@ export default {
   flex-wrap: wrap;
 
   .item {
-    width: 50%;
+    width: 33.33%;
+
+    a {
+      display: block;
+    }
   }
 }
 
@@ -44,8 +48,13 @@ export default {
     margin: -1.25vw;
 
     .item {
-      width: 33.33%;
+      width: 33.333333333%;
+      flex: 0 0 33.33%;
       padding: 1.25vw;
+
+      a {
+        border: 1px solid hsl(0, 0%, 96%);
+      }
     }
   }
 }
@@ -61,6 +70,7 @@ header {
   transition: filter 250ms ease-out;
   &:hover {
     filter: grayscale(100%) brightness(90%);
-  }
+  } // Hack to make image stop jumping on hover
+  transform: translate3d(0px, 0px, 0px);
 }
 </style>
