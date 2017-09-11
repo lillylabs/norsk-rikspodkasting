@@ -61,6 +61,7 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "~assets/utilities";
 img {
   transition: all 250ms ease-out;
   &:hover {
@@ -78,6 +79,8 @@ img {
   font-size: 0.8rem;
   height: 28px;
   line-height: 28px;
+  background: $dark;
+  color: $light;
 }
 
 .progress {
