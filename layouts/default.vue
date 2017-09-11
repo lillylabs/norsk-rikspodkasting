@@ -3,9 +3,9 @@
     <div class="background"></div>
 
     <header>
-      <nuxt-link to="/" href="" class="button is-large is-primary" title="Forside">Norsk Rikspodkasting</nuxt-link>
+      <nuxt-link to="/" class="button is-large is-primary" title="Forside">Norsk Rikspodkasting</nuxt-link>
       <br/>
-      <nuxt-link to="/info" href="" class="button is-primary" title="Om Norsk Rikspodkasting">
+      <nuxt-link to="/info" class="button is-primary" title="Om Norsk Rikspodkasting">
         <span class="icon">
           <i class="fa fa-info"></i>
         </span>
