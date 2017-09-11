@@ -37,8 +37,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/variables";
-
 .background {
   background-image: url('/hero-alt.jpg');
   background-size: cover;
@@ -67,15 +65,13 @@ main {
   min-height: 60vh;
   border: 0 solid hsl(0, 0%, 96%);
   border-top-width: 1px;
-  background: rgba(hsl(0, 0%, 96%), 0.8);
-
+  background: hsl(0, 0%, 96%);
+  padding-bottom: 48px; // room for player
   article {
-    background: hsl(0, 0%, 96%);
+    background: white;
     padding: 2rem;
     padding-top: 3rem;
   }
-
-  padding-bottom: calc(48px+1rem);
 }
 
 .player {
@@ -98,6 +94,10 @@ main {
     width: 35vw;
   }
 
+  .background {
+    width: 35vw;
+  }
+
   main {
     padding: 5vw;
     margin-top: 0;
@@ -107,7 +107,7 @@ main {
     border-left-width: 1px;
 
     article {
-      padding: 5vw;
+      padding: 4.5vw;
     }
   }
 }
